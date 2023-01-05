@@ -14,7 +14,7 @@ const mix = require("laravel-mix");
 mix
   .js("resources/js/app.js", "public/js")
   .sourceMaps()
-  .js("./node_modules/flowbite/src/flowbite.js", "public/js")
+  .js("node_modules/flowbite/dist/flowbite.js", "public/js")
   .react()
   .postCss("resources/css/app.css", "public/css", [
     require("tailwindcss"),
