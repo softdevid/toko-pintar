@@ -6,6 +6,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TokoController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,22 +21,43 @@ use Inertia\Inertia;
 |
 */
 
+Route::redirect('/', '/dashboard');
 
-//route CRUD produk
-Route::resource('produk', ProdukController::class);
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', function () {
+        // validasi level user
+        if (Auth::user()->level == 'admin') {
+            return Inertia::render('Dashboard');
+        } elseif (Auth::user()->level == 'toko') {
+            return Inertia::render('Produk/Index');
+        }
+    });
+});
 
-//route CRUD Member
-Route::resource('member', MemberController::class);
+Route::group(['middleware' => 'auth', 'prefix' => 'toko'], function () {
+    Route::get('/', function () {
+        return Inertia::render('Produk/Index');
+    });
+});
 
-//route CRUD Kategori
-Route::resource('kategori', KategoriController::class);
 
-//route CRUD Karyawan
-Route::resource('karyawan', KaryawanController::class);
 
-//route CRUD Karyawan
-Route::resource('toko', TokoController::class);
+Route::group(['middleware' => 'auth'], function () {
+    //route CRUD produk
+    Route::resource('produk', ProdukController::class);
 
+    //route CRUD Member
+    Route::resource('member', MemberController::class);
+
+    //route CRUD Kategori
+    Route::resource('kategori', KategoriController::class);
+
+    //route CRUD Karyawan
+    Route::resource('karyawan', KaryawanController::class);
+
+    //route CRUD Karyawan
+    Route::resource('toko', TokoController::class);
+});
 
 
 
