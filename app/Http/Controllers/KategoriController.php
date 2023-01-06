@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategori;
+use App\Models\Toko;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class KategoriController extends Controller
 {
@@ -14,7 +16,11 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        //
+        $kategori = Kategori::where('idUser', auth()->user()->id)->paginate(10)->withQueryString();
+        return Inertia::render('Kategori/Index', [
+            'title' => 'Kategori',
+            'kategori' => $kategori,
+        ]);
     }
 
     /**
@@ -35,7 +41,18 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id');
+        $kategori = $request->validate([
+            'namaKategori' => 'required',
+        ]);
+
+        Kategori::create([
+            'namaKategori' => $request->namaKategori,
+            'idUser' => auth()->user()->id,
+            'idToko' => $toko->id,
+        ]);
+
+        return back()->with('message', 'Kategori berhasil ditambah');
     }
 
     /**
@@ -67,9 +84,21 @@ class KategoriController extends Controller
      * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, Kategori $kategori, $id)
     {
-        //
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id');
+        $kategori = Kategori::find($id);
+        $data = $request->validate([
+            'namaKategori' => 'required',
+        ]);
+
+        $kategori->update([
+            'namaKategori' => $request->namaKategori,
+            'idUser' => auth()->user()->id,
+            'idToko' => $toko->id,
+        ]);
+
+        return back()->with('message', 'Kategori berhasil diupdate');
     }
 
     /**
@@ -78,8 +107,9 @@ class KategoriController extends Controller
      * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kategori $kategori)
+    public function destroy(Kategori $kategori, $id)
     {
-        //
+        Kategori::where('id', $id)->first()->delete();
+        return back()->with('message', 'Kategori berhasil dihapus');
     }
 }

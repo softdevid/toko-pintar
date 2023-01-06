@@ -37,6 +37,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // if (auth()->user()->level == 'toko') {
+        //     return redirect()->intended(route('dashboard'));
+        // } else {
+        //     return redirect()->intended(route('dashboard'));
+        // }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
