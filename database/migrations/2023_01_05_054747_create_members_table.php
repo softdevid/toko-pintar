@@ -16,6 +16,7 @@ class CreateMembersTable extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->foreignId('idUser');
+            $table->foreignId('idToko');
             $table->string('namaMember');
             $table->string('kodeMember');
             $table->string('email');
