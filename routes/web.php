@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MemberController;
@@ -58,7 +59,13 @@ Route::get('/toko/{id}/edit', [TokoController::class, 'edit'])->name('toko.edit'
 Route::patch('/toko/update', [TokoController::class, 'update'])->name('toko.update');
 Route::delete('/toko/delete/{id}', [TokoController::class, 'destroy'])->name('toko.destroy');
 
-
+//admin dashboard
+Route::get('/admin', [AdminController::class, 'index'])->name('toko.index');
+Route::get('/admin-stok', [AdminController::class, 'stok'])->name('toko.stok');
+Route::get('/admin-member', [AdminController::class, 'member'])->name('toko.member');
+Route::get('/admin-karyawan', [AdminController::class, 'index'])->name('toko.index');
+Route::get('/admin', [AdminController::class, 'index'])->name('toko.index');
+Route::get('/admin', [AdminController::class, 'index'])->name('toko.index');
 
 
 
