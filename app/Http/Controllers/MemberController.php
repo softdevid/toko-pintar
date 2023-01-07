@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\Member2;
 use App\Models\Toko;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,7 +19,12 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $member = Member::where('idUser', auth()->user()->id)->paginate(10)->withQueryString();
+        if (auth()->user()->level == 'toko1') {
+            $member = Member::where('idUser', auth()->user()->id)->paginate(10)->withQueryString();
+        } elseif (auth()->user()->level == 'toko2') {
+            $member = Member2::where('idUser', auth()->user()->id)->paginate(10)->withQueryString();
+        }
+
         return Inertia::render('Member/Index', [
             'title' => 'Member',
             'member' => $member
@@ -54,24 +60,48 @@ class MemberController extends Controller
             'alamat' => 'required',
             'tanggalLahir' => 'required',
         ]);
-        Member::create([
-            'idUser' => auth()->user()->id,
-            'idToko' => $toko->id,
-            'namaMember' => $request->namaMember,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'noHp' => $request->noHp,
-            'alamat' => $request->alamat,
-            'tanggalLahir' => $request->tanggalLahir,
-        ]);
 
-        User::create([
-            'name' => $request->namaMember,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        if (auth()->user()->level == 'toko1') {
+            Member::create([
+                'idUser' => auth()->user()->id,
+                'idToko' => $toko->id,
+                'namaMember' => $request->namaMember,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'noHp' => $request->noHp,
+                'alamat' => $request->alamat,
+                'tanggalLahir' => $request->tanggalLahir,
+            ]);
 
-        return back()->with('message', 'Member Berhasil di tambah');
+            User::create([
+                'name' => $request->namaMember,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'level' => 'member'
+            ]);
+
+            return back()->with('message', 'Member Berhasil di tambah');
+        } elseif (auth()->user()->level == 'toko2') {
+            Member2::create([
+                'idUser' => auth()->user()->id,
+                'idToko' => $toko->id,
+                'namaMember' => $request->namaMember,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'noHp' => $request->noHp,
+                'alamat' => $request->alamat,
+                'tanggalLahir' => $request->tanggalLahir,
+            ]);
+
+            User::create([
+                'name' => $request->namaMember,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'level' => 'member'
+            ]);
+
+            return back()->with('message', 'Member Berhasil di tambah');
+        }
     }
 
     /**
@@ -82,7 +112,12 @@ class MemberController extends Controller
      */
     public function show(Member $member, $id)
     {
-        $member = Member::find($id);
+        if (auth()->user()->level == 'toko1') {
+            $member = Member::find($id);
+        } elseif (auth()->user()->level == 'toko2') {
+            $member = Member::find($id);
+        }
+
         return Inertia::render('Member/Show', [
             'title' => "Detail member $member->namaMember",
             'member' => $member,
@@ -97,7 +132,11 @@ class MemberController extends Controller
      */
     public function edit(Member $member, $id)
     {
-        $member = Member::find($id);
+        if (auth()->user()->level == 'toko1') {
+            $member = Member::find($id);
+        } elseif (auth()->user()->level == 'toko2') {
+            $member = Member::find($id);
+        }
         return Inertia::render('Member/Edit', [
             'title' => 'Edit member',
             'member' => $member,
@@ -123,22 +162,41 @@ class MemberController extends Controller
             'tanggalLahir' => 'required',
         ]);
 
-        Member::where('id', $id)->update([
-            'idUser' => auth()->user()->id,
-            'idToko' => $toko->id,
-            'namaMember' => $request->namaMember,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'noHp' => $request->noHp,
-            'alamat' => $request->alamat,
-            'tanggalLahir' => $request->tanggalLahir,
-        ]);
+        if (auth()->user()->level == 'toko1') {
+            Member::where('id', $id)->update([
+                'idUser' => auth()->user()->id,
+                'idToko' => $toko->id,
+                'namaMember' => $request->namaMember,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'noHp' => $request->noHp,
+                'alamat' => $request->alamat,
+                'tanggalLahir' => $request->tanggalLahir,
+            ]);
 
-        User::create([
-            'name' => $request->namaMember,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+            User::where('id', $id)->update([
+                'name' => $request->namaMember,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+        } elseif (auth()->user()->level == 'toko2') {
+            Member2::where('id', $id)->update([
+                'idUser' => auth()->user()->id,
+                'idToko' => $toko->id,
+                'namaMember' => $request->namaMember,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'noHp' => $request->noHp,
+                'alamat' => $request->alamat,
+                'tanggalLahir' => $request->tanggalLahir,
+            ]);
+
+            User::where('id', $id)->update([
+                'name' => $request->namaMember,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+        }
 
         return back()->with('message', 'Member Berhasil di tambah');
     }
@@ -151,7 +209,12 @@ class MemberController extends Controller
      */
     public function destroy(Member $member, $id)
     {
-        Member::where('id', $id)->delete();
-        return back()->with('message', 'Member berhasil di Hapus');
+        if (auth()->user()->level == 'toko1') {
+            Member::where('id', $id)->delete();
+            return back()->with('message', 'Member berhasil di Hapus');
+        } elseif (auth()->user()->level == 'toko2') {
+            Member2::where('id', $id)->delete();
+            return back()->with('message', 'Member berhasil di Hapus');
+        }
     }
 }

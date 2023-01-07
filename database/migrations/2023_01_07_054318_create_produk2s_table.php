@@ -25,8 +25,6 @@ class CreateProduk2sTable extends Migration
             $table->integer('stokToko');
             $table->integer('stokGudang');
             $table->integer('terjual');
-            $table->string('namaGambar');
-            $table->string('urlGambar');
             $table->text('deskripsi');
             $table->timestamps();
         });
