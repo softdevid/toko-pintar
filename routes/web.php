@@ -43,7 +43,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'toko'], function () {
 });
 
 //admin dashboard
-Route::resource('/admin', AdminController::class);
+Route::resource('admin', AdminController::class);
 
 Route::group(['middleware' => 'auth'], function () {
     //route CRUD produk
