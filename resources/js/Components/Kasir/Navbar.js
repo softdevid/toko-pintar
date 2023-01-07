@@ -37,37 +37,17 @@ const Navbar = () => {
               !open && "scale-0"
             }`}
           >
-            Admin TokoPintar
+            Kasir TokoPintar
           </h1>
         </div>
         <ul className="pt-6">
-          <Link href={route("admin.index")}>
+          <Link href={route("kasir.index")}>
             <li
               className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
             >
               <ComputerDesktopIcon className="h-6 w-6" />
               <span className={`${!open && "hidden"} origin-left duration-200`}>
-                Dashboard
-              </span>
-            </li>
-          </Link>
-          <Link href={route("produk.index")}>
-            <li
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
-            >
-              <CircleStackIcon className="h-6 w-6" />
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
-                Stok Produk
-              </span>
-            </li>
-          </Link>
-          <Link href={route("member.index")}>
-            <li
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
-            >
-              <ListBulletIcon className="h-6 w-6" />
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
-                Member
+                Penjualan
               </span>
             </li>
           </Link>
@@ -75,42 +55,22 @@ const Navbar = () => {
             <li
               className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
             >
-              <UserGroupIcon className="h-6 w-6" />
+              <CircleStackIcon className="h-6 w-6" />
               <span className={`${!open && "hidden"} origin-left duration-200`}>
-                Karyawan
+                Pembelian
               </span>
             </li>
           </Link>
-          {/* <Link href="/admin-pelanggan">
+          <Link href="/admin-member">
             <li
               className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
             >
-              <UserIcon className="h-6 w-6" />
+              <ListBulletIcon className="h-6 w-6" />
               <span className={`${!open && "hidden"} origin-left duration-200`}>
-                Pelanggan
+                Transaksi
               </span>
             </li>
           </Link>
-          <Link href="/admin-pembayaran">
-            <li
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
-            >
-              <ClipboardDocumentIcon className="h-6 w-6" />
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
-                Pembayaran
-              </span>
-            </li>
-          </Link> */}
-          {/* <Link href={route("laporan.index")}>
-            <li
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
-            >
-              <ClipboardDocumentIcon className="h-6 w-6" />
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
-                Laporan
-              </span>
-            </li>
-          </Link> */}
           <Link href="/admin-setting">
             <li
               className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}

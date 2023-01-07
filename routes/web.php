@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProdukController;
@@ -42,12 +43,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'toko'], function () {
 });
 
 //admin dashboard
-Route::get('/admin', [AdminController::class, 'index'])->name('toko.index');
-Route::get('/admin-stok', [AdminController::class, 'stok'])->name('toko.stok');
-Route::get('/admin-member', [AdminController::class, 'member'])->name('toko.member');
-Route::get('/admin-karyawan', [AdminController::class, 'index'])->name('toko.index');
-Route::get('/admin', [AdminController::class, 'index'])->name('toko.index');
-Route::get('/admin', [AdminController::class, 'index'])->name('toko.index');
+Route::resource('/admin', AdminController::class);
 
 Route::group(['middleware' => 'auth'], function () {
     //route CRUD produk
@@ -66,7 +62,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('toko', TokoController::class);
 });
 
-
+//Kasir
+Route::resource('kasir', KasirController::class);
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
