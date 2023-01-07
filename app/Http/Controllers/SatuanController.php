@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Satuan;
+use App\Models\Satuan2;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SatuanController extends Controller
 {
@@ -14,7 +16,16 @@ class SatuanController extends Controller
      */
     public function index()
     {
-        //
+        if (auth()->user()->level == 'toko1') {
+            $satuan = Satuan::latest()->paginate(10)->withQueryString();
+        } elseif (auth()->user()->level == 'toko2') {
+            $satuan = Satuan2::latest()->paginate(10)->withQueryString();
+        }
+
+        return Inertia::render('Satuan/Index', [
+            'title' => 'Satuan',
+            'satuan' => $satuan,
+        ]);
     }
 
     /**
@@ -67,9 +78,17 @@ class SatuanController extends Controller
      * @param  \App\Models\Satuan  $satuan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Satuan $satuan)
+    public function update(Request $request, Satuan $satuan, $id)
     {
-        //
+        if (auth()->user()->level == 'toko1') {
+            $satuan = Satuan::find($id);
+        } elseif (auth()->user()->level == 'toko2') {
+            $satuan = Satuan2::find($id);
+        }
+
+        $satuan->update([
+            'namaSatuan' => $request->namaSatuan,
+        ]);
     }
 
     /**

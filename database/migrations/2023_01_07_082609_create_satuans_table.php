@@ -15,6 +15,9 @@ class CreateSatuansTable extends Migration
     {
         Schema::create('satuans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('idUser');
+            $table->foreignId('idToko');
+            $table->string('namaSatuan');
             $table->timestamps();
         });
     }
