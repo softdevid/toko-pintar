@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategori;
+use App\Models\Kategori2;
 use App\Models\Toko;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -42,7 +43,8 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $toko = Toko::where('idUser', auth()->user()->id)->select('id');
-        $kategori = $request->validate([
+
+        $request->validate([
             'namaKategori' => 'required',
         ]);
 
@@ -87,16 +89,31 @@ class KategoriController extends Controller
     public function update(Request $request, Kategori $kategori, $id)
     {
         $toko = Toko::where('idUser', auth()->user()->id)->select('id');
-        $kategori = Kategori::find($id);
+
+        if (auth()->user()->level == 'toko1') {
+            $kategori = Kategori::find($id);
+        } elseif (auth()->user()->level == 'toko2') {
+            $kategori = Kategori2::find($id);
+        }
+
         $data = $request->validate([
             'namaKategori' => 'required',
         ]);
 
-        $kategori->update([
-            'namaKategori' => $request->namaKategori,
-            'idUser' => auth()->user()->id,
-            'idToko' => $toko->id,
-        ]);
+        if (auth()->user()->level == 'toko1') {
+            $kategori->update([
+                'namaKategori' => $request->namaKategori,
+                'idUser' => auth()->user()->id,
+                'idToko' => $toko->id,
+            ]);
+        } elseif (auth()->user()->level == 'toko2') {
+
+            $kategori->update([
+                'namaKategori' => $request->namaKategori,
+                'idUser' => auth()->user()->id,
+                'idToko' => $toko->id,
+            ]);
+        }
 
         return back()->with('message', 'Kategori berhasil diupdate');
     }
@@ -109,7 +126,12 @@ class KategoriController extends Controller
      */
     public function destroy(Kategori $kategori, $id)
     {
-        Kategori::where('id', $id)->first()->delete();
-        return back()->with('message', 'Kategori berhasil dihapus');
+        if (auth()->user()->level == 'toko1') {
+            Kategori::where('id', $id)->first()->delete();
+            return back()->with('message', 'Kategori berhasil dihapus');
+        } elseif (auth()->user()->level == 'toko2') {
+            Kategori2::where('id', $id)->first()->delete();
+            return back()->with('message', 'Kategori berhasil dihapus');
+        }
     }
 }

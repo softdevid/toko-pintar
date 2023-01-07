@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKaryawansTable extends Migration
+class CreateSatuan2sTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,8 @@ class CreateKaryawansTable extends Migration
      */
     public function up()
     {
-        Schema::create('karyawans', function (Blueprint $table) {
+        Schema::create('satuan2s', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('idUser');
-            $table->foreignId('idToko');
-            $table->string('nama');
-            $table->string('noHp');
-            $table->text('alamat');
-            $table->date('tanggalLahir');
-            $table->integer('gaji');
             $table->timestamps();
         });
     }
@@ -33,6 +26,6 @@ class CreateKaryawansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('karyawans');
+        Schema::dropIfExists('satuan2s');
     }
 }

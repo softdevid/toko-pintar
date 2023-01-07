@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
+use App\Models\Kategori2;
 use App\Models\Produk;
+use App\Models\Produk2;
 use App\Models\Toko;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -30,10 +33,16 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        $toko = Toko::where('idUser', auth()->user()->id ?? '')->select('id');
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id');
+        if (auth()->user()->level == 'toko1') {
+            $kategori = Kategori::all();
+        } elseif (auth()->user()->level == 'toko2') {
+            $kategori = Kategori2::all();
+        }
         return Inertia::render('Produk/Create', [
             'title' => 'Tambah Produk',
             'toko' => $toko,
+            'kategori' => $kategori
         ]);
     }
 
@@ -69,7 +78,12 @@ class ProdukController extends Controller
                 'deskripsi.required' => 'Deskripsi harus diisi',
             ]
         );
-        Produk::create($data);
+        if (auth()->user()->level == 'toko1') {
+            Produk::create($data);
+        } else {
+            Produk2::create($data);
+        }
+
         return back()->with('message', 'Produk berhasil ditambah!');
     }
 
@@ -97,9 +111,16 @@ class ProdukController extends Controller
     public function edit(Produk $produk, $id)
     {
         $produk = Produk::where('id', $id)->first();
+        if (auth()->user()->level == 'toko1') {
+            $kategori = Kategori::all();
+        } elseif (auth()->user()->level == 'toko2') {
+            $kategori = Kategori2::all();
+        }
+
         return Inertia::render('Produk/Edit', [
             'title' => 'Edit produk',
             'produk' => $produk,
+            'kategori' => $kategori,
         ]);
     }
 
@@ -112,7 +133,12 @@ class ProdukController extends Controller
      */
     public function update(Request $request, Produk $produk, $id)
     {
-        $produk = Produk::where('id', $id)->first();
+        if (auth()->user()->level == 'toko1') {
+            $produk = Produk::where('id', $id)->first();
+        } elseif (auth()->user()->level == 'toko2') {
+            $produk = Produk2::where('id', $id)->first();
+        }
+
         $data = $request->validate(
             [
                 'namaProduk' => 'required|min:1',
@@ -136,6 +162,7 @@ class ProdukController extends Controller
                 'deskripsi.required' => 'Deskripsi harus diisi',
             ]
         );
+
         $produk->update($data);
         return back()->with('message', 'Produk berhasil diubah!');
     }
@@ -148,8 +175,14 @@ class ProdukController extends Controller
      */
     public function destroy(Produk $produk, $id)
     {
-        $produk = Produk::find($id);
-        $produk->delete();
-        return back()->with('message', 'Berhasil dihapus');
+        if (auth()->user()->level == 'toko1') {
+            $produk = Produk::find($id);
+            $produk->delete();
+            return back()->with('message', 'Berhasil dihapus');
+        } elseif (auth()->user()->level == 'toko2') {
+            $produk = Produk2::find($id);
+            $produk->delete();
+            return back()->with('message', 'Berhasil dihapus');
+        }
     }
 }
