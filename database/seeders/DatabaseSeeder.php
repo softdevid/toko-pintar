@@ -24,10 +24,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Toko',
+            'name' => 'Toko 1',
             'email' => 'toko@gmail.com',
             'password' => Hash::make('toko'),
-            'level' => 'toko',
+            'level' => 'toko1',
+        ]);
+
+        User::create([
+            'name' => 'Toko 2',
+            'email' => 'toko2@gmail.com',
+            'password' => Hash::make('toko2'),
+            'level' => 'toko2',
         ]);
     }
 }

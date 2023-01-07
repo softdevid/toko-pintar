@@ -16,7 +16,7 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produk = Produk::where('idUser', auth()->user()->id)->orderBy('namaProduk' . 'asc')->paginate(10)->withQueryString();
+        $produk = Produk::where('idUser', auth()->user()->id ?? '')->orderBy('namaProduk' . 'asc')->paginate(10)->withQueryString();
         return Inertia::render('Produk/Index', [
             'title' => 'Data Produk',
             'products' => $produk,

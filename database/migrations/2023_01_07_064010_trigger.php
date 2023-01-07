@@ -45,6 +45,39 @@ class Trigger extends Migration
                   UPDATE produks set stokToko = stokToko + NEW.jumlahBeli where id = NEW.idProduk;
               END'
         );
+
+        // Tabel toko2
+        //update stok toko ketika ada penjualan
+        DB::unprepared(
+            'CREATE TRIGGER `updateStokToko2` AFTER INSERT ON `penjualan2s`
+               FOR EACH ROW BEGIN
+                  UPDATE produk2s set stokToko = stokToko - NEW.jumlahJual where id = NEW.idProduk;
+              END'
+        );
+
+        //update jumlah terjual jika ada penjualan
+        DB::unprepared(
+            'CREATE TRIGGER `updateTerjual2` AFTER INSERT ON `penjualan2s`
+               FOR EACH ROW BEGIN
+                  UPDATE produk2s set terjual = terjual + NEW.jumlahJual where id = NEW.idProduk;
+              END'
+        );
+
+        //update stokGudang jika ada pembelian
+        DB::unprepared(
+            'CREATE TRIGGER `updateStokGudangPembelian2` AFTER INSERT ON `pembelian2s`
+               FOR EACH ROW BEGIN
+                  UPDATE produk2s set stokGudang = stokGudang + NEW.jumlahBeli where id = NEW.idProduk;
+              END'
+        );
+
+        //trigger update stok toko ketika ada pembelian
+        DB::unprepared(
+            'CREATE TRIGGER `updateStokTokoPembelian2` AFTER INSERT ON `pembelian2s`
+               FOR EACH ROW BEGIN
+                  UPDATE produk2s set stokToko = stokToko + NEW.jumlahBeli where id = NEW.idProduk;
+              END'
+        );
     }
 
     /**
@@ -54,6 +87,6 @@ class Trigger extends Migration
      */
     public function down()
     {
-        DB::unprepared('DROP TRIGGER trigger');
+        DB::unprepared('DROP TRIGGER Trigger');
     }
 }
