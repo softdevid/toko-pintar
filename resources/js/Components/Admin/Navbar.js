@@ -57,7 +57,7 @@ const Navbar = () => {
             >
               <CircleStackIcon className="h-6 w-6" />
               <span className={`${!open && "hidden"} origin-left duration-200`}>
-                Stok Produk
+                Produk
               </span>
             </li>
           </Link>
