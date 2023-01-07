@@ -6,6 +6,8 @@ use App\Models\Kategori;
 use App\Models\Kategori2;
 use App\Models\Produk;
 use App\Models\Produk2;
+use App\Models\Satuan;
+use App\Models\Satuan2;
 use App\Models\Toko;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -39,10 +41,18 @@ class ProdukController extends Controller
         } elseif (auth()->user()->level == 'toko2') {
             $kategori = Kategori2::all();
         }
+
+        if (auth()->user()->level == 'toko1') {
+            $satuan = Satuan::all();
+        } elseif (auth()->user()->level == 'toko2') {
+            $satuan = Satuan2::all();
+        }
+
         return Inertia::render('Produk/Create', [
             'title' => 'Tambah Produk',
             'toko' => $toko,
-            'kategori' => $kategori
+            'kategori' => $kategori,
+            'satuan' => $satuan,
         ]);
     }
 
@@ -117,10 +127,17 @@ class ProdukController extends Controller
             $kategori = Kategori2::all();
         }
 
+        if (auth()->user()->level == 'toko1') {
+            $satuan = Satuan::all();
+        } elseif (auth()->user()->level == 'toko2') {
+            $satuan = Satuan2::all();
+        }
+
         return Inertia::render('Produk/Edit', [
             'title' => 'Edit produk',
             'produk' => $produk,
             'kategori' => $kategori,
+            'satuan' => $satuan,
         ]);
     }
 
