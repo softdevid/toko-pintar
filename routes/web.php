@@ -61,7 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 //Kasir
-Route::resource('kasir', KasirController::class);
+Route::get('/kasir', [KasirController::class, 'index']);
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
