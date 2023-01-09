@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KategoriController;
@@ -43,7 +44,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'toko'], function () {
 });
 
 //admin dashboard
-Route::resource('admin', AdminController::class);
+Route::get('/dashboard-toko', [DashboardController::class, 'dashboard']);
 
 Route::group(['middleware' => 'auth'], function () {
     //route CRUD produk
@@ -57,9 +58,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     //route CRUD Karyawan
     Route::resource('karyawan', KaryawanController::class);
-
-    //route CRUD Karyawan
-    Route::resource('toko', TokoController::class);
 });
 
 //Kasir

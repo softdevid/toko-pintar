@@ -1,45 +1,66 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Main from "@/Components/Admin/Main";
+import { Inertia } from "@inertiajs/inertia";
+
+
 const Create = (props) => {
-  const [idKategori, setidKategori] = useState("");
-  const [idSatuan, setidSatuan] = useState("");
-  const [namaProduk, setnamaProduk] = useState("");
-  const [hargaJual, sethargaJual] = useState("");
-  const [hargaBeli, sethargaBeli] = useState("");
-  const [stokToko, setstokToko] = useState("");
-  const [stokGudang, setstokGudang] = useState("");
-  const [deskripsi, setdeskripsi] = useState("");
-  // const [notif, setNotif] = useState(false);
+
+  const [values, setValues] = useState({
+    idKategori: "",
+    idSatuan: "",
+    namaProduk: "",
+    hargaJual: "",
+    hargaBeli: "",
+    stokToko: "",
+    stokGudang: "",
+    deskripsi: "",
+  })
+
+  function handleChange(e) {
+    setValues(values => ({
+      ...values,
+      [e.target.id]: e.target.value,
+      idUser: props.auth.user.id,
+      idToko: props.toko.id,
+    }))
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {
-      idKategori,
-      idSatuan,
-      namaProduk,
-      hargaJual,
-      hargaBeli,
-      stokToko,
-      stokGudang,
-      deskripsi,
-    };
-    Inertia.post(route("produk.store"), data);
-    setidKategori("");
-    setidSatuan("");
-    setnamaProduk("");
-    sethargaJual("");
-    sethargaBeli("");
-    setstokToko("");
-    setstokGudang("");
-    setdeskripsi("");
+
+    Inertia.post(route("produk.store"), values);
+    setValues({
+      idKategori: "",
+      idSatuan: "",
+      namaProduk: "",
+      hargaJual: "",
+      hargaBeli: "",
+      stokToko: "",
+      stokGudang: "",
+      deskripsi: "",
+    });
   };
-  // console.log(props, data);
+  console.log(props);
+
   return (
     <>
       <div className="pt-3">
         <h1 className="font-bold text-3xl">Produk</h1>
       </div>
+      {props.flash.message &&
+          <div className="mx-5">
+            <div className="flex p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+              <svg aria-hidden="true" className="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>
+              <span className="sr-only">Info</span>
+              <div>
+                <span className="font-medium">{props.flash.message}</span>
+              </div>
+            </div>
+          </div>
+        }
+
       <form className="m-4" onSubmit={handleSubmit} method="POST">
+
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <div>
             <label
@@ -49,26 +70,27 @@ const Create = (props) => {
               Kategori
             </label>
             <select
-              id="kategori"
+              id="idKategori"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              name="kategori"
-              onChange={(idKategori) => setidKategori(idKategori.target.value)}
-              value={idKategori}
+              name="idKategori"
+              // onChange={(idKategori) => setidKategori(idKategori.target.value)}
+              onChange={handleChange}
+              value={values.idKategori}
             >
-              <option>Pilih Kategori</option>
-              <option value="aspal">Aspal</option>
-              <option value="baja">Baja</option>
-              <option value="beton">Beton</option>
-              <option value="kayu">Kayu</option>
-              <option value="logam">Logam</option>
-              <option value="pasir">Pasir</option>
-              <option value="pengencang">Pengencang</option>
-              <option value="pintu">Pintu</option>
-              <option value="plastik">Plastik</option>
-              <option value="semen">Semen</option>
+              <option value="">Pilih Kategori</option>
+              <option value="1">Aspal</option>
+              <option value="2">Baja</option>
+              <option value="3">Beton</option>
+              <option value="4">Kayu</option>
+              <option value="5">Logam</option>
+              <option value="6">Pasir</option>
+              <option value="7">Pengencang</option>
+              <option value="8">Pintu</option>
+              <option value="9">Plastik</option>
+              <option value="10">Semen</option>
             </select>
             {props.errors.idKategori && (
-              <div className="text-red-600">! {props.errors.idKategori}</div>
+              <div className="text-red-600">{props.errors.idKategori}</div>
             )}
           </div>
           <div>
@@ -79,20 +101,20 @@ const Create = (props) => {
               Satuan
             </label>
             <select
-              id="satuan"
+              id="idSatuan"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              name="kategori"
-              onChange={(idSatuan) => setidSatuan(idSatuan.target.value)}
-              value={idSatuan}
+              // onChange={(idSatuan) => setidSatuan(idSatuan.target.value)}
+              onChange={handleChange}
+              value={values.idSatuan}
             >
               <option>Pilih Satuan</option>
-              <option value="kilogram">Kg</option>
-              <option value="pcs">Pcs</option>
-              <option value="gram">Gram</option>
-              <option value="centimeter">Cm</option>
+              <option value="1">Kg</option>
+              <option value="2">Pcs</option>
+              <option value="3">Gram</option>
+              <option value="4">Cm</option>
             </select>
             {props.errors.idSatuan && (
-              <div className="text-red-600">! {props.errors.idSatuan}</div>
+              <div className="text-red-600">{props.errors.idSatuan}</div>
             )}
           </div>
           <div>
@@ -104,16 +126,16 @@ const Create = (props) => {
             </label>
             <input
               type="text"
-              id="nama"
+              id="namaProduk"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               name="nama"
               placeholder="Nama Produk"
-              onChange={(namaProduk) => setnamaProduk(namaProduk.target.value)}
-              value={namaProduk}
-              required=""
+              // onChange={(namaProduk) => setnamaProduk(namaProduk.target.value)}
+              onChange={handleChange}
+              value={values.namaProduk}
             />
             {props.errors.namaProduk && (
-              <div className="text-red-600">! {props.errors.namaProduk}</div>
+              <div className="text-red-600">{props.errors.namaProduk}</div>
             )}
           </div>
           <div>
@@ -125,16 +147,16 @@ const Create = (props) => {
             </label>
             <input
               type="text"
-              id="harga_beli"
+              id="hargaBeli"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               name="harga_beli"
               placeholder="Harga Beli"
-              onChange={(hargaBeli) => sethargaBeli(hargaBeli.target.value)}
-              value={hargaBeli}
-              required=""
+              // onChange={(hargaBeli) => sethargaBeli(hargaBeli.target.value)}
+              onChange={handleChange}
+              value={values.hargaBeli}
             />
             {props.errors.hargaBeli && (
-              <div className="text-red-600">! {props.errors.hargaBeli}</div>
+              <div className="text-red-600">{props.errors.hargaBeli}</div>
             )}
           </div>
           <div>
@@ -146,16 +168,17 @@ const Create = (props) => {
             </label>
             <input
               type="tel"
-              id="harga_jual"
+              id="hargaJual"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              name="harga_jual"
+              name="hargaJual"
               placeholder="Harga Jual"
-              onChange={(hargaJual) => sethargaJual(hargaJual.target.value)}
-              value={hargaJual}
-              required=""
+              // onChange={(hargaJual) => sethargaJual(hargaJual.target.value)}
+              onChange={handleChange}
+              value={values.hargaJual}
+
             />
             {props.errors.hargaJual && (
-              <div className="text-red-600">! {props.errors.hargaJual}</div>
+              <div className="text-red-600">{props.errors.hargaJual}</div>
             )}
           </div>
           <div>
@@ -168,15 +191,16 @@ const Create = (props) => {
             <input
               type="number"
               className="htmlForm-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              name="stok_gudang"
+              id="stokGudang"
               min="0"
               placeholder="0"
-              onChange={(stokGudang) => setstokGudang(stokGudang.target.value)}
-              value={stokGudang}
-              required
+              // onChange={(stokGudang) => setstokGudang(stokGudang.target.value)}
+              onChange={handleChange}
+              value={values.stokGudang}
+
             />
             {props.errors.stokGudang && (
-              <div className="text-red-600">! {props.errors.stokGudang}</div>
+              <div className="text-red-600">{props.errors.stokGudang}</div>
             )}
           </div>
           <div>
@@ -189,15 +213,16 @@ const Create = (props) => {
             <input
               type="number"
               className="htmlForm-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              name="stok_toko"
+              id="stokToko"
               min="0"
               placeholder="0"
-              onChange={(stokToko) => setstokToko(stokToko.target.value)}
-              value={stokToko}
-              required
+              // onChange={(stokToko) => setstokToko(stokToko.target.value)}
+              onChange={handleChange}
+              value={values.stokToko}
+
             />
             {props.errors.stokToko && (
-              <div className="text-red-600">! {props.errors.stokToko}</div>
+              <div className="text-red-600">{props.errors.stokToko}</div>
             )}
           </div>
         </div>
@@ -214,11 +239,13 @@ const Create = (props) => {
             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             name="deskripsi"
             placeholder="Deskripsi Produk"
-            onChange={(deskripsi) => setdeskripsi(deskripsi.target.value)}
-            value={deskripsi}
+            // onChange={(deskripsi) => setdeskripsi(deskripsi.target.value)}
+            onChange={handleChange}
+            value={values.deskripsi}
+
           ></textarea>
           {props.errors.deskripsi && (
-            <div className="text-red-600">! {props.errors.deskripsi}</div>
+            <div className="text-red-600">{props.errors.deskripsi}</div>
           )}
         </div>
         <button

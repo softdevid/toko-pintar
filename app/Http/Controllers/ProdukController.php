@@ -21,7 +21,7 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produk = Produk::where('idUser', auth()->user()->id ?? '')->orderBy('namaProduk' . 'asc')->paginate(10)->withQueryString();
+        $produk = Produk::where('idUser', auth()->user()->id ?? '')->orderBy('namaProduk', 'asc')->paginate(10)->withQueryString();
         return Inertia::render('Produk/Index', [
             'title' => 'Data Produk',
             'products' => $produk,
@@ -35,7 +35,8 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        $toko = Toko::where('idUser', auth()->user()->id)->select('id');
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id')->first();
+
         if (auth()->user()->level == 'toko1') {
             $kategori = Kategori::all();
         } elseif (auth()->user()->level == 'toko2') {
@@ -64,6 +65,7 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id')->first();
         $data = $request->validate(
             [
                 'namaProduk' => 'required|min:1',
@@ -73,8 +75,9 @@ class ProdukController extends Controller
                 'idSatuan' => 'required',
                 'stokToko' => 'required',
                 'stokGudang' => 'required',
-                'namaGambar' => 'required',
                 'deskripsi' => 'required',
+                'idUser' => 'required',
+                'idToko' => 'required',
             ],
             [
                 'namaProduk.required' => 'Nama Produk harus diisi',
@@ -84,13 +87,18 @@ class ProdukController extends Controller
                 'idSatuan.required' => 'Satuan jual harus dipilih',
                 'stokToko.required' => 'Stok toko harus diisi',
                 'stokGudang.required' => 'Stok toko harus diisi',
-                'namaGambar.required' => 'Harus mengupload gambar',
                 'deskripsi.required' => 'Deskripsi harus diisi',
             ]
         );
+
         if (auth()->user()->level == 'toko1') {
             Produk::create($data);
         } else {
+            $data = [
+                'idUser' => auth()->user()->id,
+                'idToko' => $toko->id,
+            ];
+            // $data['idUser'] = auth()->user()->id;
             Produk2::create($data);
         }
 
@@ -164,7 +172,6 @@ class ProdukController extends Controller
                 'idKategori' => 'required',
                 'idSatuan' => 'required',
                 'stokGudang' => 'required',
-                'namaGambar' => 'required',
                 'deskripsi' => 'required',
             ],
             [
@@ -175,7 +182,6 @@ class ProdukController extends Controller
                 'idSatuan.required' => 'Satuan jual harus dipilih',
                 'stokToko.required' => 'Stok toko harus diisi',
                 'stokGudang.required' => 'Stok toko harus diisi',
-                'namaGambar.required' => 'Harus mengupload gambar',
                 'deskripsi.required' => 'Deskripsi harus diisi',
             ]
         );

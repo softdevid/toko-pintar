@@ -17,9 +17,8 @@ const Navbar = () => {
   return (
     <>
       <div
-        className={` ${
-          open ? "w-72" : "w-20 "
-        } bg-dark-purple h-screen p-5  pt-8 relative duration-300`}
+        className={` ${open ? "w-72" : "w-20 "
+          } bg-dark-purple h-screen p-5  pt-8 relative duration-300`}
       >
         <img
           src="/img/control.png"
@@ -33,15 +32,14 @@ const Navbar = () => {
             className={`cursor-pointer duration-500 w-8 md:w-10 ${open}`}
           />
           <h1
-            className={`text-white origin-left font-medium text-xl duration-200 ${
-              !open && "scale-0"
-            }`}
+            className={`text-white origin-left font-medium text-xl duration-200 ${!open && "scale-0"
+              }`}
           >
             Admin TokoPintar
           </h1>
         </div>
         <ul className="pt-6">
-          <Link href={route("admin.index")}>
+          <Link href="/dashboard-toko">
             <li
               className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
             >
