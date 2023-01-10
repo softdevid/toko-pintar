@@ -37,7 +37,7 @@ class KaryawanController extends Controller
      */
     public function create()
     {
-        $toko = Toko::where('idUser', auth()->user()->id)->select('id');
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id')->first();
         return Inertia::render('Karyawan/Create', [
             'title' => 'Karyawan',
             'toko' => $toko,
@@ -59,7 +59,7 @@ class KaryawanController extends Controller
             'tanggalLahir' => 'required',
             'gaji' => 'required',
         ]);
-        $toko = Toko::where('idUser', auth()->user()->id)->select('id');
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id')->first();
 
         if (auth()->user()->level == 'toko1') {
             Karyawan::create([
@@ -119,10 +119,12 @@ class KaryawanController extends Controller
         } elseif (auth()->user()->level == 'toko2') {
             $karyawan = Karyawan2::find($id);
         }
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id')->first();
 
         return Inertia::render('Karyawan/Edit', [
             'title' => 'Edit Karyawan',
             'karyawan' => $karyawan,
+            'toko' => $toko,
         ]);
     }
 
@@ -141,7 +143,7 @@ class KaryawanController extends Controller
             $karyawan = Karyawan2::find($id);
         }
 
-        $toko = Toko::where('idUser', auth()->user()->id)->select('id');
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id')->first();
         $karyawan->update([
             'idToko' => $toko->idToko,
             'idUser' => auth()->user()->id,
@@ -165,7 +167,7 @@ class KaryawanController extends Controller
     {
         if (auth()->user()->level == 'toko1') {
             Karyawan::where('id', $id)->delete();
-        } elseif (auth()->user()->id) {
+        } elseif (auth()->user()->level == 'toko2') {
             Karyawan2::where('id', $id)->delete();
         }
         return back()->with('message', 'Berhasil di hapus');
