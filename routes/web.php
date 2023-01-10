@@ -32,9 +32,9 @@ Route::group(['middleware' => 'auth'], function () {
         if (Auth::user()->level == 'admin') {
             return Inertia::render('Dashboard');
         } elseif (Auth::user()->level == 'toko1') {
-            return Inertia::render('Produk/Index');
+            return Inertia::render('AdminToko/Dashboard');
         } elseif (Auth::user()->level == 'toko2') {
-            return Inertia::render('Produk/Index');
+            return Inertia::render('AdminToko/Dashboard');
         }
     });
 });
