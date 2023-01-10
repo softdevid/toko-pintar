@@ -15,6 +15,7 @@ class CreateRinciPenjualan2sTable extends Migration
     {
         Schema::create('rinci_penjualan2s', function (Blueprint $table) {
             $table->id();
+            $table->string('noFakturJual');
             $table->foreignId('idToko');
             $table->foreignId('idPenjualan');
             $table->integer('total');
