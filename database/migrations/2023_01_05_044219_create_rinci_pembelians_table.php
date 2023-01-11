@@ -15,6 +15,7 @@ class CreateRinciPembeliansTable extends Migration
     {
         Schema::create('rinci_pembelians', function (Blueprint $table) {
             $table->id();
+            $table->string('noFakturBeli');
             $table->foreignId('idToko');
             $table->foreignId('idPembelian');
             $table->integer('total');

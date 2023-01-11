@@ -24,6 +24,7 @@ class CreateMember2sTable extends Migration
             $table->string('noHp');
             $table->string('alamat');
             $table->date('tanggalLahir');
+            $table->integer('point')->default(0);
             $table->timestamps();
         });
     }

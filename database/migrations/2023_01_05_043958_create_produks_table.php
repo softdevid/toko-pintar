@@ -24,7 +24,7 @@ class CreateProduksTable extends Migration
             $table->integer('hargaBeli');
             $table->integer('stokToko');
             $table->integer('stokGudang');
-            $table->integer('terjual');
+            $table->integer('terjual')->default(0);
             $table->text('deskripsi');
             $table->timestamps();
         });

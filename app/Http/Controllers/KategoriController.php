@@ -17,10 +17,16 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $kategori = Kategori::where('idUser', auth()->user()->id)->paginate(10)->withQueryString();
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id')->first();
+        if (auth()->user()->level == 'toko1') {
+            $kategori = Kategori::where('idUser', auth()->user()->id)->paginate(10)->withQueryString();
+        } elseif (auth()->user()->level == 'toko2') {
+            $kategori = Kategori2::where('idUser', auth()->user()->id)->paginate(10)->withQueryString();
+        }
         return Inertia::render('Kategori/Index', [
             'title' => 'Kategori',
             'kategori' => $kategori,
+            'toko' => $toko,
         ]);
     }
 
@@ -42,17 +48,25 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $toko = Toko::where('idUser', auth()->user()->id)->select('id');
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id')->first();
 
         $request->validate([
             'namaKategori' => 'required',
         ]);
 
-        Kategori::create([
-            'namaKategori' => $request->namaKategori,
-            'idUser' => auth()->user()->id,
-            'idToko' => $toko->id,
-        ]);
+        if (auth()->user()->level == 'toko1') {
+            Kategori::create([
+                'namaKategori' => $request->namaKategori,
+                'idUser' => auth()->user()->id,
+                'idToko' => $toko->id,
+            ]);
+        } elseif (auth()->user()->level == 'toko2') {
+            Kategori2::create([
+                'namaKategori' => $request->namaKategori,
+                'idUser' => auth()->user()->id,
+                'idToko' => $toko->id,
+            ]);
+        }
 
         return back()->with('message', 'Kategori berhasil ditambah');
     }
@@ -88,7 +102,11 @@ class KategoriController extends Controller
      */
     public function update(Request $request, Kategori $kategori, $id)
     {
-        $toko = Toko::where('idUser', auth()->user()->id)->select('id');
+        $toko = Toko::where('idUser', auth()->user()->id)->select('id')->first();
+
+        $request->validate([
+            'namaKategori' => 'required',
+        ]);
 
         if (auth()->user()->level == 'toko1') {
             $kategori = Kategori::find($id);
@@ -96,9 +114,6 @@ class KategoriController extends Controller
             $kategori = Kategori2::find($id);
         }
 
-        $data = $request->validate([
-            'namaKategori' => 'required',
-        ]);
 
         if (auth()->user()->level == 'toko1') {
             $kategori->update([

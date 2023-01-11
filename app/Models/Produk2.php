@@ -9,4 +9,5 @@ class Produk2 extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    protected $keyType = 'string';
 }

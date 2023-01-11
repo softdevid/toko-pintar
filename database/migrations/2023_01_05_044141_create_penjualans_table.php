@@ -15,6 +15,7 @@ class CreatePenjualansTable extends Migration
     {
         Schema::create('penjualans', function (Blueprint $table) {
             $table->id();
+            $table->string('noFakturJual');
             $table->foreignId('idToko');
             $table->foreignId('idProduk');
             $table->string('namaProduk');

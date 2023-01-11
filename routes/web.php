@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KategoriController;
@@ -30,20 +31,28 @@ Route::group(['middleware' => 'auth'], function () {
         // validasi level user
         if (Auth::user()->level == 'admin') {
             return Inertia::render('Dashboard');
-        } elseif (Auth::user()->level == 'toko') {
-            return Inertia::render('Produk/Index');
+        } elseif (Auth::user()->level == 'toko1') {
+            return Inertia::render('AdminToko/Dashboard');
+        } elseif (Auth::user()->level == 'toko2') {
+            return Inertia::render('AdminToko/Dashboard');
         }
     });
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'toko'], function () {
+Route::group(['middleware' => 'auth', 'prefix' => 'toko1'], function () {
+    Route::get('/', function () {
+        return Inertia::render('Produk/Index');
+    });
+});
+
+Route::group(['middleware' => 'auth', 'prefix' => 'toko2'], function () {
     Route::get('/', function () {
         return Inertia::render('Produk/Index');
     });
 });
 
 //admin dashboard
-Route::resource('admin', AdminController::class);
+Route::get('/dashboard-toko', [DashboardController::class, 'dashboard']);
 
 Route::group(['middleware' => 'auth'], function () {
     //route CRUD produk
@@ -57,13 +66,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     //route CRUD Karyawan
     Route::resource('karyawan', KaryawanController::class);
-
-    //route CRUD Karyawan
-    Route::resource('toko', TokoController::class);
 });
 
 //Kasir
-Route::resource('kasir', KasirController::class);
+Route::get('/kasir', [KasirController::class, 'index']);
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [

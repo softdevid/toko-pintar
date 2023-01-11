@@ -15,6 +15,7 @@ class CreatePembeliansTable extends Migration
     {
         Schema::create('pembelians', function (Blueprint $table) {
             $table->id();
+            $table->string('noFakturBeli');
             $table->foreignId('idUser');
             $table->foreignId('idToko');
             $table->foreignId('idProduk');
