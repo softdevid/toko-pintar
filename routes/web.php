@@ -69,16 +69,9 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 //Kasir
-Route::get('/kasir', [KasirController::class, 'index']);
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
+Route::redirect('/kasir', '/kasir/jual');
+Route::get('/kasir/jual', [KasirController::class, 'jual'])->name('kasir.jual');
+Route::get('/kasir/beli', [KasirController::class, 'beli'])->name('kasir.beli');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
