@@ -1,6 +1,6 @@
 import Main from "@/Components/Admin/Main";
 
-import React from "react";
+// import React from "react";
 
 import { Link } from "@inertiajs/inertia-react";
 import React, { useState } from "react";
@@ -138,3 +138,6 @@ const Index = (props) => {
     </>
   );
 };
+
+Index.layout = (page) => <Main children={page} />;
+export default Index;
