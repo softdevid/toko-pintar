@@ -19,6 +19,7 @@ class CreatePembeliansTable extends Migration
             $table->foreignId('idUser');
             $table->foreignId('idToko');
             $table->foreignId('idProduk');
+            $table->string('barcode');
             $table->string('namaProduk');
             $table->integer('hargaJual');
             $table->integer('hargaBeli');

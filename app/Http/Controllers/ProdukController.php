@@ -85,7 +85,7 @@ class ProdukController extends Controller
                 'idToko' => 'required',
             ],
             [
-                'barcode.required' => 'Nama Produk harus diisi',
+                'barcode.required' => 'Barode Produk harus diisi',
                 'namaProduk.required' => 'Nama Produk harus diisi',
                 'hargaJual.required' => 'Harga Jual harus diisi',
                 'hargaBeli.required' => 'Harga Beli harus diisi',
