@@ -28,7 +28,7 @@ class ProdukController extends Controller
         }
         return Inertia::render('Produk/Index', [
             'title' => 'Data Produk',
-            'products' => $produk,
+            'products' => $produk ?? 'Anda tidak bisa akses halaman ini -_-',
         ]);
     }
 
@@ -55,9 +55,9 @@ class ProdukController extends Controller
 
         return Inertia::render('Produk/Create', [
             'title' => 'Tambah Produk',
-            'toko' => $toko,
-            'kategori' => $kategori,
-            'satuan' => $satuan,
+            'toko' => $toko ?? 'Anda tidak bisa akses halaman ini -_-',
+            'kategori' => $kategori ?? 'Anda tidak bisa akses halaman ini -_-',
+            'satuan' => $satuan ?? 'Anda tidak bisa akses halaman ini -_-',
         ]);
     }
 
@@ -72,6 +72,7 @@ class ProdukController extends Controller
         $toko = Toko::where('idUser', auth()->user()->id)->select('id')->first();
         $data = $request->validate(
             [
+                'barcode' => 'required',
                 'namaProduk' => 'required|min:1',
                 'hargaJual' => 'required',
                 'hargaBeli' => 'required',
@@ -84,6 +85,7 @@ class ProdukController extends Controller
                 'idToko' => 'required',
             ],
             [
+                'barcode.required' => 'Nama Produk harus diisi',
                 'namaProduk.required' => 'Nama Produk harus diisi',
                 'hargaJual.required' => 'Harga Jual harus diisi',
                 'hargaBeli.required' => 'Harga Beli harus diisi',
@@ -115,7 +117,7 @@ class ProdukController extends Controller
         $produk = Produk::where('id', $id)->first();
         return Inertia::render('Produk/Show', [
             'title' => 'Detail produk',
-            'produk' => $produk,
+            'produk' => $produk ?? 'Anda tidak bisa akses halaman ini -_-',
         ]);
     }
 
@@ -171,6 +173,7 @@ class ProdukController extends Controller
 
         $data = $request->validate(
             [
+                'barcode' => 'required',
                 'namaProduk' => 'required|min:1',
                 'hargaJual' => 'required',
                 'hargaBeli' => 'required',
@@ -180,6 +183,7 @@ class ProdukController extends Controller
                 'deskripsi' => 'required',
             ],
             [
+                'barcode.required' => 'Nama Produk harus diisi',
                 'namaProduk.required' => 'Nama Produk harus diisi',
                 'hargaJual.required' => 'Harga Jual harus diisi',
                 'hargaBeli.required' => 'Harga Beli harus diisi',

@@ -19,6 +19,7 @@ class CreateProduksTable extends Migration
             $table->foreignId('idKategori');
             $table->foreignId('idSatuan');
             $table->foreignId('idToko');
+            $table->string('barcode');
             $table->string('namaProduk');
             $table->integer('hargaJual');
             $table->integer('hargaBeli');

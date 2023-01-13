@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'toko2'], function () {
 //admin dashboard
 Route::get('/dashboard-toko', [DashboardController::class, 'dashboard']);
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['toko'], function () {
     //route CRUD produk
     Route::resource('produk', ProdukController::class);
 
