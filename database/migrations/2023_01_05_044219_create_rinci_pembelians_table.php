@@ -20,6 +20,7 @@ class CreateRinciPembeliansTable extends Migration
             $table->foreignId('idPembelian');
             $table->integer('total');
             $table->integer('totalItem');
+            $table->date('tglBeli');
             $table->timestamps();
         });
     }

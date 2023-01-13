@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TokoController;
@@ -66,6 +67,11 @@ Route::group(['toko'], function () {
 
     //route CRUD Karyawan
     Route::resource('karyawan', KaryawanController::class);
+
+    Route::get('/laporan-bulanan/penjualan', [LaporanController::class, 'laporanBulananPenjualan']);
+    Route::get('/laporan-tahunan/penjualan', [LaporanController::class, 'laporanTahunanPenjualan']);
+    Route::get('/laporan-bulanan/pembelian', [LaporanController::class, 'laporanBulananPembelian']);
+    Route::get('/laporan-tahunan/pembelian', [LaporanController::class, 'laporanTahunanPembelian']);
 });
 
 //Kasir

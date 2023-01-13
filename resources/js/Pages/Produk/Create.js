@@ -6,6 +6,7 @@ import { Inertia } from "@inertiajs/inertia";
 const Create = (props) => {
 
   const [values, setValues] = useState({
+    barcode: "",
     idKategori: "",
     idSatuan: "",
     namaProduk: "",
@@ -30,6 +31,7 @@ const Create = (props) => {
 
     Inertia.post(route("produk.store"), values);
     setValues({
+      barcode: "",
       idKategori: "",
       idSatuan: "",
       namaProduk: "",
@@ -136,6 +138,27 @@ const Create = (props) => {
             />
             {props.errors.namaProduk && (
               <div className="text-red-600">{props.errors.namaProduk}</div>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="barcode"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Barcode
+            </label>
+            <input
+              type="text"
+              id="barcode"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              name="barcode"
+              placeholder="Barcode"
+              // onChange={(namaProduk) => setnamaProduk(namaProduk.target.value)}
+              onChange={handleChange}
+              value={values.barcode}
+            />
+            {props.errors.barcode && (
+              <div className="text-red-600">{props.errors.barcode}</div>
             )}
           </div>
           <div>

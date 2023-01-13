@@ -1,6 +1,7 @@
 import React from "react";
 
-const LaporanTahunan = () => {
+const LaporanTahunan = (props) => {
+  console.log(props);
   return (
     <></>
   )

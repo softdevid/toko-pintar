@@ -20,6 +20,7 @@ class CreateRinciPenjualan2sTable extends Migration
             $table->foreignId('idPenjualan');
             $table->integer('total');
             $table->integer('totalItem');
+            $table->date('tglJual');
             $table->timestamps();
         });
     }

@@ -24,6 +24,7 @@ class CreatePembeliansTable extends Migration
             $table->integer('hargaJual');
             $table->integer('hargaBeli');
             $table->integer('jumlahBeli');
+            $table->date('tglBeli');
             $table->timestamps();
         });
     }

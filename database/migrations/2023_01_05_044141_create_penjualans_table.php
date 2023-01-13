@@ -23,6 +23,7 @@ class CreatePenjualansTable extends Migration
             $table->integer('hargaJual');
             $table->integer('hargaBeli');
             $table->integer('jumlahJual');
+            $table->date('tglJual');
             $table->timestamps();
         });
     }
