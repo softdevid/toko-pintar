@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LaporanAdminController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProdukController;
@@ -72,6 +73,17 @@ Route::group(['toko'], function () {
     Route::get('/laporan-tahunan/penjualan', [LaporanController::class, 'laporanTahunanPenjualan']);
     Route::get('/laporan-bulanan/pembelian', [LaporanController::class, 'laporanBulananPembelian']);
     Route::get('/laporan-tahunan/pembelian', [LaporanController::class, 'laporanTahunanPembelian']);
+});
+
+Route::group(['admin'], function () {
+
+    //route laporan penjualan per bulan, tahun super admin
+    Route::get('/admin/laporan-bulanan/penjualan', [LaporanAdminController::class, 'laporanPenjualanBulananAdmin'])->name('laporanBulananPenjualanAdmin');
+    Route::get('/admin/laporan-tahunan/penjualan', [LaporanAdminController::class, 'laporanPenjualanTahunanAdmin'])->name('laporanTahunanPenjualanAdmin');
+
+    //route laporan pembelian per bulan, tahun super admin
+    Route::get('/admin/laporan-bulanan/pembelian', [LaporanAdminController::class, 'laporanPembelianBulananAdmin'])->name('laporanBulananPenjualanAdmin');
+    Route::get('/admin/laporan-tahunan/pembelian', [LaporanAdminController::class, 'laporanPembelianTahunanAdmin'])->name('laporanTahunanPembelianAdmin');
 });
 
 //Kasir

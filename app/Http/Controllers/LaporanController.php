@@ -8,10 +8,13 @@ use App\Models\Penjualan;
 use App\Models\Penjualan2;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class LaporanController extends Controller
 {
+
+    //=================================== ini untuk toko laporan bulanan dan tahunan dll =========================================================================================================================================================//
     public function laporanBulananPenjualan(Request $request)
     {
         $date = Carbon::parse('2023-01'); //request date/bulan
@@ -129,4 +132,7 @@ class LaporanController extends Controller
             'pembelian' => $pembelian,
         ]);
     }
+
+
+    //======= End toko ==========//
 }
