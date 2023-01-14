@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
-class LaporanController extends Controller
+class LaporanTokoController extends Controller
 {
 
     //=================================== ini untuk toko laporan bulanan dan tahunan dll =========================================================================================================================================================//
