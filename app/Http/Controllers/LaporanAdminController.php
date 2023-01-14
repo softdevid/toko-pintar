@@ -65,10 +65,10 @@ class LaporanAdminController extends Controller
 
     public function laporanPenjualanRange(Request $request)
     {
-        $tglAwal = Carbon::parse('2023-01-12');
+        $tglAwal = Carbon::parse($request->tglAwal);
         $first = $tglAwal->format('Y-m-d');
 
-        $tglAkhir = Carbon::parse('2023-01-15');
+        $tglAkhir = Carbon::parse($request->tglAkhir);
         $two = $tglAkhir->format('Y-m-d');
 
 
@@ -137,10 +137,10 @@ class LaporanAdminController extends Controller
 
     public function laporanPembelianRange(Request $request)
     {
-        $tglAwal = Carbon::parse('2023-01-12');
+        $tglAwal = Carbon::parse($request->tglAwal);
         $first = $tglAwal->format('Y-m-d');
 
-        $tglAkhir = Carbon::parse('2023-01-15');
+        $tglAkhir = Carbon::parse($request->tglAkhir);
         $two = $tglAkhir->format('Y-m-d');
 
 

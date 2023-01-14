@@ -17,7 +17,7 @@ class LaporanTokoController extends Controller
     //=================================== ini untuk toko laporan bulanan dan tahunan dll =========================================================================================================================================================//
     public function laporanBulananPenjualan(Request $request)
     {
-        $date = Carbon::parse('2023-01'); //request date/bulan
+        $date = Carbon::parse($request->date); //request date/bulan
         $month = $date->format('m');
         $year = $date->format('Y');
         // dd($date, $month);
@@ -48,7 +48,7 @@ class LaporanTokoController extends Controller
 
     public function laporanTahunanPenjualan(Request $request)
     {
-        $date = Carbon::parse('2023-01'); //request date/bulan
+        $date = Carbon::parse($request->date); //request date/bulan
         $year = $date->format('Y');
         // dd($date, $month);
 
@@ -77,10 +77,10 @@ class LaporanTokoController extends Controller
 
     public function laporanPenjualanRange(Request $request)
     {
-        $tglAwal = Carbon::parse('2023-01-12');
+        $tglAwal = Carbon::parse($request->tglAwal);
         $first = $tglAwal->format('Y-m-d');
 
-        $tglAkhir = Carbon::parse('2023-01-15');
+        $tglAkhir = Carbon::parse($request->tglAkhir);
         $two = $tglAkhir->format('Y-m-d');
 
         if (auth()->user()->level == 'toko1') {
@@ -112,7 +112,7 @@ class LaporanTokoController extends Controller
 
     public function laporanBulananPembelian(Request $request)
     {
-        $date = Carbon::parse('2023-01'); //request date/bulan
+        $date = Carbon::parse($request->date); //request date/bulan
         $month = $date->format('m');
         $year = $date->format('Y');
         // dd($date, $month);
@@ -143,7 +143,7 @@ class LaporanTokoController extends Controller
 
     public function laporanTahunanPembelian(Request $request)
     {
-        $date = Carbon::parse('2023-01'); //request date/bulan
+        $date = Carbon::parse($request->date); //request date/bulan
         $year = $date->format('Y');
         // dd($date, $month);
 
@@ -172,10 +172,10 @@ class LaporanTokoController extends Controller
 
     public function laporanPembelianRange(Request $request)
     {
-        $tglAwal = Carbon::parse('2023-01-12');
+        $tglAwal = Carbon::parse($request->tglAwal);
         $first = $tglAwal->format('Y-m-d');
 
-        $tglAkhir = Carbon::parse('2023-01-15');
+        $tglAkhir = Carbon::parse($request->tglAkhir);
         $two = $tglAkhir->format('Y-m-d');
 
         if (auth()->user()->level == 'toko1') {
