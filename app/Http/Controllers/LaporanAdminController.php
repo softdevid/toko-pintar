@@ -63,8 +63,33 @@ class LaporanAdminController extends Controller
         ]);
     }
 
+    public function laporanPenjualanRange(Request $request)
+    {
+        $tglAwal = Carbon::parse('2023-01-12');
+        $first = $tglAwal->format('Y-m-d');
 
-    //pembelian
+        $tglAkhir = Carbon::parse('2023-01-15');
+        $two = $tglAkhir->format('Y-m-d');
+
+
+        $penjualan1 = Penjualan::whereBetween('tglJual', [$first, $two])->select('noFakturJual', 'barcode', 'namaProduk', 'hargaJual', 'hargaBeli', 'jumlahJual', 'tglJual')->get();
+        $penjualan2 = Penjualan2::whereBetween('tglJual', [$first, $two])->select('noFakturJual', 'barcode', 'namaProduk', 'hargaJual', 'hargaBeli', 'jumlahJual', 'tglJual')->get();
+        $penjualan = $penjualan1->concat($penjualan2);
+
+        $omset = 0;
+        foreach ($penjualan as $value) {
+            $omset += $value['hargaJual'] * $value['jumlahJual'];
+        }
+
+        return Inertia::render('LaporanAdmin/LaporanRange', [
+            'title' => 'Laporan Tahunan penjualan semua toko',
+            'penjualan' => $penjualan,
+            'omset' => $omset,
+        ]);
+    }
+
+
+    //======================================pembelian bulanan, tahunan, range ============================================================================
     public function laporanPembelianBulananAdmin(Request $request)
     {
         $date = Carbon::parse($request->date); //request dari admin dengan variabel name "date"
@@ -75,19 +100,15 @@ class LaporanAdminController extends Controller
         $pembelian2 = Pembelian2::whereMonth('tglBeli', $month)->whereYear('tglBeli', $year)->select('noFakturBeli', 'barcode', 'namaProduk', 'hargaJual', 'hargaBeli', 'jumlahBeli', 'tglBeli')->get();
         $pembelian = $pembelian1->concat($pembelian2);
 
-        $total = 0;
-        $profit = 0;
-        $totalHrgBeli = $pembelian->sum('hargaBeli');
+        $totalPengeluaran = 0;
         foreach ($pembelian as $value) {
-            $total += $value['hargaJual'] * $value['jumlahJual'];
-            $profit += ($value['hargaJual'] * $value['jumlahJual']) - $totalHrgBeli;
+            $totalPengeluaran += $value['hargaBeli'] * $value['jumlahBeli'];
         }
 
         return Inertia::render('LaporanAdmin/LaporanBulanan', [
             'title' => 'Laporan Bulanan Pembelian semua toko',
             'pembelian' => $pembelian,
-            'total' => $total,
-            'profit' => $profit,
+            'totalPengeluaran' => $totalPengeluaran,
         ]);
     }
 
@@ -100,19 +121,42 @@ class LaporanAdminController extends Controller
         $pembelian2 = Pembelian2::whereYear('tglBeli', $year)->select('noFakturBeli', 'barcode', 'namaProduk', 'hargaJual', 'hargaBeli', 'jumlahBeli', 'tglBeli')->get();
         $pembelian = $pembelian1->concat($pembelian2);
 
-        $total = 0;
-        $profit = 0;
-        $totalHrgBeli = $pembelian->sum('hargaBeli');
+        $totalPengeluaran = 0;
         foreach ($pembelian as $value) {
-            $total += $value['hargaJual'] * $value['jumlahJual'];
-            $profit += ($value['hargaJual'] * $value['jumlahJual']) - $totalHrgBeli;
+            $totalPengeluaran += $value['hargaBeli'] * $value['jumlahBeli'];
         }
 
         return Inertia::render('LaporanAdmin/LaporanTahunan', [
             'title' => 'Laporan Tahunan Pembelian semua toko',
             'pembelian' => $pembelian,
-            'total' => $total,
-            'profit' => $profit,
+            'totalPengeluaran' => $totalPengeluaran,
+        ]);
+    }
+
+
+
+    public function laporanPembelianRange(Request $request)
+    {
+        $tglAwal = Carbon::parse('2023-01-12');
+        $first = $tglAwal->format('Y-m-d');
+
+        $tglAkhir = Carbon::parse('2023-01-15');
+        $two = $tglAkhir->format('Y-m-d');
+
+
+        $pembelian1 = Pembelian::whereBetween('tglBeli', [$first, $two])->select('noFakturBeli', 'barcode', 'namaProduk', 'hargaJual', 'hargaBeli', 'jumlahBeli', 'tglBeli')->get();
+        $pembelian2 = Pembelian2::whereBetween('tglBeli', [$first, $two])->select('noFakturBeli', 'barcode', 'namaProduk', 'hargaJual', 'hargaBeli', 'jumlahBeli', 'tglBeli')->get();
+        $pembelian = $pembelian1->concat($pembelian2);
+
+        $totalPengeluaran = 0;
+        foreach ($pembelian as $value) {
+            $totalPengeluaran += $value['hargaBeli'] * $value['jumlahBeli'];
+        }
+
+        return Inertia::render('LaporanAdmin/LaporanRange', [
+            'title' => 'Laporan Tahunan Pembelian semua toko',
+            'pembelian' => $pembelian,
+            'totalPengeluaran' => $totalPengeluaran,
         ]);
     }
 }

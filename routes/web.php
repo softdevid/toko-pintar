@@ -70,10 +70,13 @@ Route::group(['toko'], function () {
     //route CRUD Karyawan
     Route::resource('karyawan', KaryawanController::class);
 
-    Route::get('/laporan-bulanan/penjualan', [LaporanTokoController::class, 'laporanBulananPenjualan']);
-    Route::get('/laporan-tahunan/penjualan', [LaporanTokoController::class, 'laporanTahunanPenjualan']);
-    Route::get('/laporan-bulanan/pembelian', [LaporanTokoController::class, 'laporanBulananPembelian']);
-    Route::get('/laporan-tahunan/pembelian', [LaporanTokoController::class, 'laporanTahunanPembelian']);
+    Route::get('/laporan-bulanan/penjualan', [LaporanTokoController::class, 'laporanBulananPenjualan'])->name('laporanPenjualanBulanan');
+    Route::get('/laporan-tahunan/penjualan', [LaporanTokoController::class, 'laporanTahunanPenjualan'])->name('laporanPenjualanTahunan');
+    Route::get('/laporan-range/penjualan', [LaporanTokoController::class, 'laporanPenjualanRange'])->name('laporanPenjualanRange');
+
+    Route::get('/laporan-bulanan/pembelian', [LaporanTokoController::class, 'laporanBulananPembelian'])->name('laporanPembelianBulanan');
+    Route::get('/laporan-tahunan/pembelian', [LaporanTokoController::class, 'laporanTahunanPembelian'])->name('laporanPembelianTahunan');
+    Route::get('/laporan-range/pembelian', [LaporanTokoController::class, 'laporanPembelianRange'])->name('laporanPembelianRange');
 });
 
 Route::group(['admin'], function () {
@@ -85,6 +88,10 @@ Route::group(['admin'], function () {
     //route laporan pembelian per bulan, tahun super admin
     Route::get('/admin/laporan-bulanan/pembelian', [LaporanAdminController::class, 'laporanPembelianBulananAdmin'])->name('laporanBulananPenjualanAdmin');
     Route::get('/admin/laporan-tahunan/pembelian', [LaporanAdminController::class, 'laporanPembelianTahunanAdmin'])->name('laporanTahunanPembelianAdmin');
+
+    //route laporan penjualan range tanggal
+    Route::get('/admin/laporan-range/penjualan', [LaporanAdminController::class, 'laporanPenjualanRange'])->name('laporanPenjualanRangeAdmin');
+    Route::get('/admin/laporan-range/pembelian', [LaporanAdminController::class, 'laporanPembelianRange'])->name('laporanPembelianRangeAdmin');
 });
 
 //Kasir

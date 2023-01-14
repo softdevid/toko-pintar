@@ -74,6 +74,42 @@ class LaporanTokoController extends Controller
         ]);
     }
 
+
+    public function laporanPenjualanRange(Request $request)
+    {
+        $tglAwal = Carbon::parse('2023-01-12');
+        $first = $tglAwal->format('Y-m-d');
+
+        $tglAkhir = Carbon::parse('2023-01-15');
+        $two = $tglAkhir->format('Y-m-d');
+
+        if (auth()->user()->level == 'toko1') {
+            $penjualan = Penjualan::whereBetween('tglJual', [$first, $two])->select('noFakturJual', 'barcode', 'namaProduk', 'hargaJual', 'hargaBeli', 'jumlahJual', 'tglJual')->get();
+        } elseif (auth()->user()->level == 'toko2') {
+            $penjualan = Penjualan2::whereBetween('tglJual', [$first, $two])->select('noFakturJual', 'barcode', 'namaProduk', 'hargaJual', 'hargaBeli', 'jumlahJual', 'tglJual')->get();
+        }
+
+        $omset = 0;
+        $profit = 0;
+        foreach ($penjualan as $value) {
+            $omset += $value['hargaJual'] * $value['jumlahJual'];
+            $profit += ($value['hargaJual'] * $value['jumlahJual']) - $value['hargaBeli'];
+        }
+
+        return Inertia::render('LaporanToko/LaporanRange', [
+            'title' => 'Laporan Tahunan penjualan semua toko',
+            'penjualan' => $penjualan,
+            'omset' => $omset,
+            'profit' => $profit,
+        ]);
+    }
+
+
+    // ==================== end penjualan ===========================
+
+
+    // ============================== Pembelian ============================================
+
     public function laporanBulananPembelian(Request $request)
     {
         $date = Carbon::parse('2023-01'); //request date/bulan
@@ -130,6 +166,33 @@ class LaporanTokoController extends Controller
             'profit' => $profit,
             'total' => $total,
             'pembelian' => $pembelian,
+        ]);
+    }
+
+
+    public function laporanPembelianRange(Request $request)
+    {
+        $tglAwal = Carbon::parse('2023-01-12');
+        $first = $tglAwal->format('Y-m-d');
+
+        $tglAkhir = Carbon::parse('2023-01-15');
+        $two = $tglAkhir->format('Y-m-d');
+
+        if (auth()->user()->level == 'toko1') {
+            $pembelian = Pembelian::whereBetween('tglBeli', [$first, $two])->select('noFakturBeli', 'barcode', 'namaProduk', 'hargaJual', 'hargaBeli', 'jumlahBeli', 'tglBeli')->get();
+        } elseif (auth()->user()->level == 'toko2') {
+            $pembelian = Pembelian2::whereBetween('tglBeli', [$first, $two])->select('noFakturBeli', 'barcode', 'namaProduk', 'hargaJual', 'hargaBeli', 'jumlahBeli', 'tglBeli')->get();
+        }
+
+        $totalPengeluaran = 0;
+        foreach ($pembelian as $value) {
+            $totalPengeluaran += $value['hargaBeli'] * $value['jumlahBeli'];
+        }
+
+        return Inertia::render('LaporanAdmin/LaporanRange', [
+            'title' => 'Laporan Tahunan Pembelian semua toko',
+            'pembelian' => $pembelian,
+            'totalPengeluaran' => $totalPengeluaran,
         ]);
     }
 
