@@ -1,73 +1,55 @@
-import {
-  ArrowLeftOnRectangleIcon,
-  BuildingStorefrontIcon,
-  ShoppingBagIcon,
-  ShoppingCartIcon,
-} from "@heroicons/react/20/solid";
-import { Link } from "@inertiajs/inertia-react";
+import { Bars3Icon } from "@heroicons/react/20/solid";
 import React from "react";
-import { useState } from "react";
+
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
   return (
-    <>
-      <div
-        className={` ${
-          open ? "w-60" : "w-20 "
-        } bg-dark-purple h-screen p-5  pt-8 relative duration-300`}
-      >
-        <img
-          src="/img/control.png"
-          className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple
-           border-2 rounded-full  ${!open && "rotate-180"}`}
-          onClick={() => setOpen(!open)}
-        />
-        <Link href="/kasir" className="flex gap-x-4 items-center">
-          <BuildingStorefrontIcon
-            className={`cursor-pointer text-white w-8 md:w-10 ${!open && 'absolute'}`}
-          />
-          <h1
-            className={`text-white origin-left font-medium text-xl duration-200 ${
-              !open && "scale-0"
-            }`}
-          >
+    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
+      <div className="container flex flex-wrap items-center justify-between mx-auto">
+        <a href="https://flowbite.com/" className="flex items-center">
+          <span className="self-center text-xl font-semibold whitespace-nowrap">
             Kasir TokoPintar
-          </h1>
-        </Link>
-        <ul className="pt-6">
-          <Link href={route("kasir.jual")} as="button">
-            <li
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
-            >
-              <ShoppingBagIcon className="h-6 w-6" />
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
+          </span>
+        </a>
+        <button
+          data-collapse-toggle="navbar-default"
+          type="button"
+          className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          aria-controls="navbar-default"
+          aria-expanded="false"
+        >
+          <span className="sr-only">Open main menu</span>
+          <Bars3Icon className="h-6 w-6" />
+        </button>
+        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+          <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-md md:font-medium md:border-0 md:bg-white">
+            <li>
+              <a
+                href="#"
+                className="block py-2 pl-3 pr-4 text-zinc-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-0"
+              >
                 Penjualan
-              </span>
+              </a>
             </li>
-          </Link>
-          <Link href={route("kasir.beli")} as="button">
-            <li
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
-            >
-              <ShoppingCartIcon className="h-6 w-6" />
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
+            <li>
+              <a
+                href="#"
+                className="block py-2 pl-3 pr-4 text-zinc-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-0"
+              >
                 Pembelian
-              </span>
+              </a>
             </li>
-          </Link>
-          <Link href="/logout" as="button">
-            <li
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
-            >
-              <ArrowLeftOnRectangleIcon className="h-6 w-6" />
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
+            <li>
+              <a
+                href="#"
+                className="block py-2 pl-3 pr-4 text-zinc-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-0"
+              >
                 Keluar
-              </span>
+              </a>
             </li>
-          </Link>
-        </ul>
+          </ul>
+        </div>
       </div>
-    </>
+    </nav>
   );
 };
 
