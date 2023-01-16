@@ -8,6 +8,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LaporanAdminController;
 use App\Http\Controllers\LaporanTokoController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProdukController;
 
 
@@ -98,6 +99,14 @@ Route::group(['admin'], function () {
 Route::redirect('/kasir', '/kasir/jual');
 Route::get('/kasir/jual', [KasirController::class, 'jual'])->name('kasir.jual');
 Route::get('/kasir/beli', [KasirController::class, 'beli'])->name('kasir.beli');
+
+//penjualan
+Route::post('/kasir/penjualan', [PenjualanController::class, 'penjualan']);
+Route::post('/kasir/rinci-penjualan', [PenjualanController::class, 'rinciPenjualan']);
+
+//pembelian
+Route::post('/kasir/pembelian', [PembelianController::class, 'pembelian']);
+Route::post('/kasir/rinci-pembelian', [PembelianController::class, 'rinciPembelian']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

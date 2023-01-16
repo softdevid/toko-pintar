@@ -17,7 +17,6 @@ class CreateRinciPembeliansTable extends Migration
             $table->id();
             $table->string('noFakturBeli');
             $table->foreignId('idToko');
-            $table->foreignId('idPembelian');
             $table->integer('total');
             $table->integer('totalItem');
             $table->date('tglBeli');

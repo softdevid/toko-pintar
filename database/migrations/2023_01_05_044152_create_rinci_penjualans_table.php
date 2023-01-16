@@ -17,7 +17,6 @@ class CreateRinciPenjualansTable extends Migration
             $table->id();
             $table->string('noFakturJual');
             $table->foreignId('idToko');
-            $table->foreignId('idPenjualan');
             $table->integer('total');
             $table->integer('totalItem');
             $table->date('tglJual');
