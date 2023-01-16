@@ -29,7 +29,7 @@ class PenjualanController extends Controller
 
         if (auth()->user()->level == 'toko1') {
             Penjualan::create([
-                'noFaktur' => $noFaktur,
+                'noFakturJual' => $noFaktur,
                 'idToko' => $produk->idToko,
                 'idProduk' => $produk->idProduk,
                 'namaProduk' => $$produk->namaProduk,
@@ -40,7 +40,7 @@ class PenjualanController extends Controller
             ]);
         } elseif (auth()->user()->level == 'toko2') {
             Penjualan2::create([
-                'noFaktur' => $noFaktur,
+                'noFakturJual' => $noFaktur,
                 'idToko' => $produk->idToko,
                 'idProduk' => $$produk->idProduk,
                 'namaProduk' => $$produk->namaProduk,

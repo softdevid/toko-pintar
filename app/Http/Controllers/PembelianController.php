@@ -33,7 +33,7 @@ class PembelianController extends Controller
 
         if (auth()->user()->level == 'toko1') {
             Pembelian::create([
-                'noFaktur' => $noFaktur,
+                'noFakturBeli' => $noFaktur,
                 'idToko' => $produk->idToko,
                 'idProduk' => $produk->idProduk,
                 'namaProduk' => $$produk->namaProduk,
@@ -44,7 +44,7 @@ class PembelianController extends Controller
             ]);
         } elseif (auth()->user()->level == 'toko2') {
             Pembelian2::create([
-                'noFaktur' => $noFaktur,
+                'noFakturBeli' => $noFaktur,
                 'idToko' => $produk->idToko,
                 'idProduk' => $$produk->idProduk,
                 'namaProduk' => $$produk->namaProduk,
@@ -84,7 +84,7 @@ class PembelianController extends Controller
         }
 
         $data = [
-            'noFakturJual' => $firstData->noFakturJual,
+            'noFakturBeli' => $firstData->noFakturBeli,
             'idToko' => $firstData->idToko,
             'total' => $total,
             'totalItem' => $totalItem,
