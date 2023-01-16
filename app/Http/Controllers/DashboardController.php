@@ -9,8 +9,8 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
-        return Inertia::render('AdminToko/Dashboard', [
-            'title' => 'Dashboard Admin'
+        return Inertia::render('DashboardToko/Dashboard', [
+            'title' => 'Dashboard Toko'
         ]);
     }
 }

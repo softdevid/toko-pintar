@@ -36,22 +36,22 @@ Route::group(['middleware' => 'auth'], function () {
         if (Auth::user()->level == 'admin') {
             return Inertia::render('Dashboard');
         } elseif (Auth::user()->level == 'toko1') {
-            return Inertia::render('AdminToko/Dashboard');
+            return Inertia::render('DashboardToko/Dashboard');
         } elseif (Auth::user()->level == 'toko2') {
-            return Inertia::render('AdminToko/Dashboard');
+            return Inertia::render('DashboardToko/Dashboard');
         }
     });
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'toko1'], function () {
     Route::get('/', function () {
-        return Inertia::render('Produk/Index');
+        return Inertia::render('DashboardToko/Dashboard');
     });
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'toko2'], function () {
     Route::get('/', function () {
-        return Inertia::render('Produk/Index');
+        return Inertia::render('DashboardToko/Dashboard');
     });
 });
 
