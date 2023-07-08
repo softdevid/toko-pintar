@@ -107,6 +107,8 @@ const Index = (props) => {
                     >
                       {data.namaProduk}
                     </th>
+                    <td className="px-6 py-4">{data.idKategori}</td>
+                    <td className="px-6 py-4">{data.idSatuan}</td>
                     <td className="px-6 py-4">{data.hargaBeli}</td>
                     <td className="px-6 py-4">{data.hargaJual}</td>
                     <td className="px-6 py-4">{data.stokGudang}</td>
